@@ -1,0 +1,38 @@
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Sign In</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <meta Name="description" content="">
+        <meta Name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'styles/signin.css' %}">
+    </head>
+    <body background="{% static 'images/s1.jpg' %}" style="background-repeat: no-repeat; background-size: cover; background-position: center;">
+        <div class="registration_form">
+            <form action="/signin" method="post">
+                {% csrf_token %}
+                <!-- <img src="" alt="login_image" class="image"><br> -->
+                <h3 style="color: white;">Sign In</h3>
+                <label for="">User Name</label><br>
+                    <input type="text" id="username" name="username" placeholder="Enter Your Username" Required>
+                <br>
+                <label for="password">Password</label><br>
+                    <input type="password" id="pass1" name="pass1" placeholder="Enter Your Password" Required>
+                <br>
+                <br><br>
+                <button type="submit">Sign In</button><br>
+                <h4><a  style="color: white;" href="/signup">Do Not Have Account? Sign Up!</a></h4>
+                
+            </form>
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>

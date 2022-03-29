@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width-device-width", initial-scale="1.0">
+        <title>Gallery</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        {% load static %}
+        <!--Custom CSS-->
+        <link rel="stylesheet" href="{% static 'styles/gallery.css' %}">
+    </head>
+    <body>
+        <header class="header">
+            <nav class="navbar navbar-style">
+                <div class="container2">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#micon">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="/home"><img class="logo" src="{% static 'images/logo.png' %}"></a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="micon">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="">Features</a></li>
+                            <li><a href="/about-us">About Us</a></li>
+                            <li><a href="/contact-us">Contact Us</a></li>
+                            <li><a href="/signin">Sign In</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        <input type="radio" name="Photos" id="check1" checked>
+        <input type="radio" name="Photos" id="check2">
+        <input type="radio" name="Photos" id="check3">
+        <input type="radio" name="Photos" id="check4">
+
+        <div class="container">
+            <h1>OUR PHOTO GALLERY</h1>
+            <div class="top-content">
+                <h3>Photo Gallery</h3>
+                <label for="check1">All Food</label>
+                <label for="check2">Chinese Food</label>
+                <label for="check3">Fast Food</label>
+                <label for="check4">Beverages</label>
+            </div>
+
+            <div class="photo-gallery">
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin1.jpg' %}" alt="chin1">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast1.jpg' %}" alt="fast1">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev1.jpg' %}" alt="bev1">
+                </div>
+            
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin2.jpg' %}" alt="chin2">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast2.jpg' %}" alt="fast2">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev2.jpg' %}" alt="bev2">
+                </div>
+                
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin3.jpg' %}" alt="chin3">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast3.jpg' %}" alt="fast3">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev3.jpg' %}" alt="bev3">
+                </div>
+               
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin4.jpg' %}" alt="chin4">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast4.jpg' %}" alt="fast4">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev4.jpg' %}" alt="bev4">
+                </div>
+
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin5.jpg' %}" alt="chin5">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast5.jpg' %}" alt="fast5">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev5.jpg' %}" alt="bev5">
+                </div>
+
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin6.jpg' %}" alt="chin6">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast6.jpg' %}" alt="fast6">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev6.jpg' %}" alt="bev6">
+                </div>
+
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin7.jpg' %}" alt="chin7">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast7.jpg' %}" alt="fast7">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev7.jpg' %}" alt="bev7">
+                </div>
+
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin8.jpg' %}" alt="chin8">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast8.jpg' %}" alt="fast8">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev8.jpg' %}" alt="bev8">
+                </div>
+
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin9.jpg' %}" alt="chin9">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast9.jpg' %}" alt="fast9">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev9.jpg' %}" alt="bev9">
+                </div>
+
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin10.jpg' %}" alt="chin10">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast10.jpg' %}" alt="fast10">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev10.jpg' %}" alt="bev10">
+                </div>
+
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin11.jpg' %}" alt="chin11">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast11.jpg' %}" alt="fast11">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev11.jpg' %}" alt="bev11">
+                </div>
+
+                <div class="pic chinese">
+                    <img src="{% static 'images/gallery/chin12.jpg' %}" alt="chin11">
+                </div>
+                <div class="pic fastfood">
+                    <img src="{% static 'images/gallery/fast12.jpg' %}" alt="fast11">
+                </div>
+                <div class="pic beverage">
+                    <img src="{% static 'images/gallery/bev12.jpg' %}" alt="bev11">
+                </div>
+               
+            </div>
+
+        </div>
+        </header>
+    </body>
+</html>

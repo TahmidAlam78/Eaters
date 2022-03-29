@@ -1,0 +1,70 @@
+body{
+    margin             :          0;
+    padding            :          0;
+}
+body:before{
+    content                 : '';
+    position                : fixed;
+    width                   : 100vw;
+    height                  : 100vh;
+    background-position     : center center;
+    background-repeat       : no-repeat;
+    background-attachment   : fixed;
+    -webkit-background-size : cover;
+    background-size         : cover;
+    -webkit-filter          : blur(10px);
+    -moz-filter             : blur(10px);
+    filter                  : blur(10px);
+}
+.registration_form{
+    position           :          absolute;
+    top                :          50%;
+    left               :          75%;
+    -webkit-transform  :          translate(-50%,-50%);
+    -moz-tramform      :          translate(-50%,-50%);
+    -ms-transform      :          translate(-50%,-50%);
+    -o-transform       :          translate(-50%,-50%);
+    transform          :          translate(-50%,-50%);
+    width              :          400px;
+    height             :          550px;
+    padding            :          80px 40px;
+    background         :          rgba(105, 105, 105, 0.747);
+    border-radius      :          25px;
+}
+.registration_form h3{
+    margin             :          0;
+    padding            :          0 0 20px;
+    color              :          black;
+    text-align         :          center;
+    text-transform     :          uppercase;
+}
+.registration_form label{
+    margin             :          0;
+    padding            :          0;
+    font-weight        :          bold;
+    font-size          :          medium;
+    color              :         rgb(250, 192, 0)
+}
+.registration_form input{
+    border-radius      :          25px;
+    height             :          25px;
+}
+.registration_form input[type=text],
+.registration_form input[type=email],
+.registration_form input[type=tel],
+.registration_form input[type=password]{
+    width              :          90%;
+    margin-bottom      :          3px;
+}
+.registration_form button[type=submit]{
+    margin-top         :          60px;
+    height             :          30px;
+    width              :          100%;
+    color              :          #fff;
+    font-size          :          15px;
+    background         :          red;
+    cursor             :          pointer;
+    border-radius      :          25px;
+    border             :          none;
+    outline            :          none;
+}

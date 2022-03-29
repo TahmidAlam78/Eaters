@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width-device-width", initial-scale="1.0">
+        <title>Contact Us</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/contactUs.css' %}">
+    </head>
+    <body>
+        <section class="contact">
+            <div class="content">
+                <h2><strong>Contact Us</strong></h2>
+                <p>If you are facing any trouble with anything please send us email.</p>
+            </div>
+            {% if responseMessage is not null %}
+            <div class="alert alert-primary" role="alert">
+                {{ responseMessage }}
+              </div>
+              {% endif %}
+            <div class="container">
+                <div class="contactInfo">
+                    <div class="box">
+                        <div class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i>
+                        </div>
+                        <div class="text">
+                            <h3>Address</h3>
+                            <p>1st floor, 1 Gulshan Avenue<br>Road-1, House-1<br>GL Bhaban, Dhaka 1212</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="icon"><i class="fa fa-phone" aria-hidden="true"></i>
+                        </div>
+                        <div class="text">
+                            <h3>Phone</h3>
+                            <p>+8801687453989</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></div>
+                        <div class="text">
+                            <h3>Email</h3>
+                            <p>justeat1@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+             
+
+                <div class="contactForm">
+                    <h3>Send message</h3>
+                 <form method="post" action="/contact-us"  style="margin-top:0%;">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">User  Name</label>
+                        <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter User Name" name="userName">
+                        
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter Email" name="email">
+                        <small id="emailHelp" class="form-text text-muted" style="color: white; font-weight: bold;">We'll never share your email with anyone else.</small>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Message</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" name="message"></textarea>
+                        
+                      </div>
+                      
+                     
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    
+                 </form>
+                </div>
+            </div>
+           
+        </section>
+        
+    </body>
+</html>

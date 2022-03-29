@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <title>About Us</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale =1.0">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+        <link rel="stylesheet" href="{% static 'styles/aboutUs.css' %}">
+    </head>
+    <body>
+        <header class="header">
+            <nav class="navbar navbar-style">
+                <div class="container2">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#micon">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="/home"><img class="logo" src="{% static 'images/logo.png' %}"></a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="micon">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="">Features</a></li>
+                            <li><a href="/gallery">Gallery</a></li>
+                            <li><a href="/contact-us">Contact Us</a></li>
+                            <li><a href="/signin">Sign In</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="section">
+                <div class="container">
+                    <div class="content-section">
+                        <div class="title">
+                            <h1>About Us</h1>
+                        </div>
+                        <div class="content">
+                            <h3>Eat & Enjoy</h3>
+                            <p> <strong>Just Eat </strong>is a fully online based food order delivery system. It was founded in 2022. 
+                                During the Covid-19 pandemic, people was unable to go to the restaurants and enjoy their food.
+                                So we focused on bringing the food to you. We are dedicated to creating wonderful surprises
+                                that you'll absolutely love. We are dedicated to deliver your food in time and provide a good
+                                quality food. <br>
+                                Hopefully you will be connected with us for a long period of time. Thank you for supporing us.
+                            </p>
+                            <div class="button">
+                                <a href="">Read More</a>
+                            </div>
+                        </div>
+                        <div class="social">
+                            <a href=""> <i class="fab fa-facebook-f"></i></a>
+                            <a href="https://twitter.com/" target="_blank"> <i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/" target="_blank"> <i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="image-section">
+                        <img src="{% static 'images/food.jpg' %}" alt="food">
+                    </div>
+                </div>
+            </div>
+        </header>
+    </body>
+</html>

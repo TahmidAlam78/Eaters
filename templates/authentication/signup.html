@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Registration</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <meta Name="description" content="">
+        <meta Name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'styles/signup.css' %}">
+    </head>
+    <body background="{% static 'images/s1.jpg' %}" style="background-repeat: no-repeat; background-size: cover; background-position: center;">
+        <div class="registration_form">
+            <h3><strong>REGISTRATION</strong></h3>
+            <form action="/signup" method="post">
+                {% csrf_token %}
+                <label for="">Username</label><br>
+                    <input type="text" id="username" name="username" placeholder="Create a username" Required>
+                <br>
+                <label for="">First Name</label><br>
+                    <input type="text" id="fname" name="fname" placeholder="Enter Your First Name" Required>
+                <br>
+                <label for="">Last Name</label><br>
+                    <input type="text" id="lname" name="lname" placeholder="Enter Your Last Name" Required>
+                <br>
+                <label for="">Email Address</label><br>
+                    <input type="email" id="email" name="email" placeholder="Enter Your Email Address" Required>
+                <br>
+                <!-- <label for="phone">PhoneNumber</label><br>
+                    <input type="tel" id="phone" name="Phone NUmber" placeholder="Enter Your Phone Number" required>
+                <br> -->
+                <label for="password">Password</label><br>
+                    <input type="password" id="pass1" name="pass1" placeholder="Create a Password" Required>
+                <br>
+                <label for="password_confirmation">Confirm  your password</label><br>
+                    <input type="password" id="pass2" name="pass2" placeholder="Confirm Your Password" Required>
+                <br>
+                <br><br>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>
