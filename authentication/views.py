@@ -1,5 +1,5 @@
 from warnings import catch_warnings
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render,get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -58,16 +58,36 @@ def signout(request):
     return redirect('home')
 
 def second_page(request):
+    user = get_object_or_404(User,id = request.user.id)
+    return render(request, "custom_pages/second_page.html",{'user': user})
 
-    return render(request, "custom_pages/second_page.html")
-
+        
 def second_page_post(request):
-    if request.method == 'POST':
-        demoname = request.POST['demoname']
-        return HttpResponse("Your Demo name is: "+demoname)
 
-    return HttpResponse("Error")
-    # return render(request, "custom_pages/second_page.html")
+    user = get_object_or_404(User,id = request.user.id)
+    if request.method == 'POST':
+        username = request.POST['username']
+        fname = request.POST['firstName']
+        lname = request.POST['lastName']
+        email = request.POST['email']
+        password = request.POST.get('password')
+
+
+       
+        user.first_name = fname
+        user.last_name = lname
+        user.username = username
+        user.email = email
+        user.password = password
+        user.save()
+
+        return render(request, "custom_pages/second_page.html",{'user': user})
+
+ 
+    
+
+    
+   
 
 def about_us(request):
 
@@ -76,6 +96,8 @@ def about_us(request):
 def gallery(request):
     
     return render(request, "custom_pages/gallery.html")
+
+
 
 def contact_us(request):
 
@@ -96,13 +118,5 @@ def contact_us(request):
             responseMessage =  "Email Not send due to technical Problems."
 
             return render(request, "custom_pages/contactUs.html",{'responseMessage': responseMessage})
-
-
-       
-
-        
-       
-
-
-    
+  
     return render(request, "custom_pages/contactUs.html",{'responseMessage': responseMessage})
