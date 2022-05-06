@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -43,7 +44,10 @@
                         <li><a href="/about-us">About Us</a></li>
                         <li><a href="/gallery">Gallery</a></li>
                         <li><a href="/contact-us">Contact Us</a></li>
+                        <li><a href=""><i class="bi bi-basket3-fill"></i></a></li>
                     </ul>
+
+                    
                 </div>
             </div>
         </nav>
@@ -68,23 +72,21 @@
     <main class="main">
         <div class="row">  
             <div class="col-lg-1"></div> 
-            {% for res in resrtaurents %}
-            <a href='{% url "food_items" res.id %}'>
-            <div class="col-lg-2" >
-                <div class="card" style="width: 18rem;" >
-                    <img class="card-img-top" src=" {% static res.res_image.url%}" alt="Card image cap" width="220px" >
+            {% for it in items %}
+            <div class="col-lg-2">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src=" {% static it.res_image.url%}" alt="Card image cap" width="220px">
                     <div class="card-body">
-                      <h4 class="card-title">{{res.name}}</h4>
-                      <p class="card-text">{{res.location}}</p>
-                      <p class="card-text">{{res.description |truncatewords_html:4}}</p>
-                      <p class="card-text">{{res.rating}}/5</p>
-                    
+                     <div> <h4 class="card-title">{{it.name}}</h4> </div>
+                      <p class="card-text">{{it.price}} Taka</p>
+                      <p class="card-text">{{it.description |truncatewords_html:4}}</p>
+                      <p class="card-text">{{it.rating}}/5</p>
+                  
                   </div>
-                 </div>
+                </div>
+                <a  href='{% url "food_items" it.restaurant_id_id it.id %}'><div> <button class="btn btn-primary">Add to Cart</button></div></a>
            
-           
-            </div>
-        </a>
+        </div>
         {% endfor %}
 
     </main>

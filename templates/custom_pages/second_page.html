@@ -43,6 +43,9 @@
                     <li><a href="/about-us">About Us</a></li>
                     <li><a href="/gallery">Gallery</a></li>
                     <li><a href="/contact-us">Contact Us</a></li>
+                    {% if user.id is not  None %}
+                    <li><a href="/signout">Sign Out</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -58,34 +61,39 @@
             
                
         </style>
-            <form method="post" action="/second-page-post"  style="margin-top:0%;" class="fontColor">
+            <form method="post" action="/second-page"  style="margin-top:0%;" class="fontColor">
                 {% csrf_token %}
                 
                 <div class="form-group">
                     <label for="exampleInputEmail1">First Name</label>
-                    <input type="text" class="form-control"    name="firstName" value=" {{user.first_name }}">
+                    <input type="text" class="form-control"    name="first_name" value="{{user.first_Name.strip}}">
                     
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Last Name</label>
-                    <input type="text" class="form-control"    name="lastName" value=" {{user.last_name }}">
+                    <input type="text" class="form-control"    name="last_name" value="{{user.last_name.strip}}">
                     
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">User Name</label>
-                    <input type="text" class="form-control"    name="username" value=" {{user.username }}">
+                    <input type="text" class="form-control"    name="username" value="{{user.user_name.strip}}">
+                    
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Full Name</label>
+                    <input type="text" class="form-control"    name="full_name" value="{{user.full_name.strip}}">
                     
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email</label>
-                    <input type="text" class="form-control"    name="email" value=" {{user.email }}">
+                    <input type="text" class="form-control"    name="email" value="{{user.email.strip}}">
                     
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="exampleInputEmail1">Password</label>
                     <input type="text" class="form-control"    name="password" >
                     
-                </div>
+                </div> -->
                 
                  
                   <button type="submit" class="btn btn-primary">Submit</button>

@@ -17,6 +17,13 @@
     <body background="{% static 'images/s1.jpg' %}" style="background-repeat: no-repeat; background-size: cover; background-position: center;">
         <div class="registration_form">
             <h3><strong>REGISTRATION</strong></h3>
+
+            <div style="color:black;font-weight: bolder;font-size: 15px;"> 
+                {% if response is not None%}
+                    {{response}}
+                {%endif%}
+            </div>
+
             <form action="/signup" method="post">
                 {% csrf_token %}
                 <label for="">Username</label><br>

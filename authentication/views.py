@@ -1,93 +1,166 @@
+from ast import And
+from lib2to3.pgen2.token import EQUAL
+from urllib import response
 from warnings import catch_warnings
+from xmlrpc.client import DateTime
 from django.shortcuts import redirect, render,get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from django.conf import settings
+from pymysql import NULL
+from .models import Customer
+from food.models import Restaurant,Item,Order
+import datetime
 # Create your views here.
 
 def home(request):
-    return render(request, "authentication/index.html")
+
+    resrtaurents = Restaurant.objects.all()
+
+    return render(request, "authentication/index.html",{'resrtaurents':resrtaurents})
+
+def food_items(request,id,food_id=''):
+
+    items = Item.objects.filter(restaurant_id_id = id)
+    res_message = ''
+
+    if food_id != '' and request.session.get('customer_id') is not None:
+       
+        food = Item.objects.get(id = food_id)
+        order = Order(price=food.price,is_added_to_cart	= True,food_id_id = food_id,restaurant_id_id = id,cart_added_date= datetime.datetime.now(),customer_id= request.session.get('customer_id')) 
+        order.save()
+    else:
+        res_message = 'To add item in the Cart , Please Login'
+
+
+    return render(request, "custom_pages/food_items.html",{'items':items,'res_message': res_message})
 
 def signup(request):
 
+    responseMessage = ''
     if request.method == "POST":
         username = request.POST['username']
         fname = request.POST['fname']
         lname = request.POST['lname']
-        email = request.POST['email']
-        username = request.POST['username']
+        email = request.POST['email'].lower()
+        
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
+        full_name = fname + ' ' +lname
 
-        myuser = User.objects.create_user(username, email, pass1)
-        myuser.first_name = fname
-        myuser.last_name = lname
+        if email is not None :
+            
+            try:
+                customer =  Customer.objects.get(email=email)
+            except:
+                customer = None
+               
 
-        myuser.save()
+            if customer is not None :
+                responseMessage = 'Email Already Registered.Please Try with Another Email'
+                return render(request, 'authentication/signup.html',{'response':responseMessage})
+            else:
+                if pass1 != pass2:
+                    responseMessage = "Password Don't Match"
+                    return render(request, "authentication/signup.html",{'response':responseMessage})
+                if username is not None and fname is not None and lname is not None and email is not None and pass1 is not None:
+                    Customer.objects.create(first_Name= fname,last_name= lname,email=email,user_name=username,password=pass1,full_name=full_name)
+                    return render(request,"authentication/signin.html")
+                else:
+                    return render(request, "authentication/signup.html",{'response':responseMessage})
+                
+        else:
+            return render(request, "authentication/signup.html",{'response':responseMessage})
+    else:
+         return render(request, "authentication/signup.html",{'response':responseMessage})
 
-        messages.success(request, "Your Account has been successfully created.")
-        return redirect('signin')
-
-    return render(request, "authentication/signup.html")
 
 def signin(request):
+    response_message = ''
 
     if request.method == 'POST':
-        username = request.POST['username']
-        pass1 = request.POST['pass1']
 
-        user = authenticate(username=username, password=pass1)
-
-        if user is not None:
-            login(request, user)
-            fname = user.first_name
-            return render(request, "authentication/index.html", {'fname': fname})
-
+        customer =  Customer.objects.get(user_name=request.POST['username'])
+        
+        if customer is not None:
+            if customer.password == request.POST['password']:
+                request.session['customer_id'] = customer.id
+                response_message = 'User Authenticated Successfully'
+                return render(request, "authentication/index.html", {'customer': customer, 'response': response_message})  
+                
+            else:
+                response_message = "Provided password is Wrong.Please try with correct Password"
+                return render(request, "authentication/signin.html",{'response': response_message})
         else:
-            messages.error(request, "Bad Credentials")
-            return redirect('home')
-
-    return render(request, "authentication/signin.html")
-
+            return render(request, "authentication/index.html", {'customer': customer, 'response': response_message})  
+    return render(request, "authentication/signin.html",{'response': response_message})
+    
 def signout(request):
     logout(request)
+    #del request.session['customer_id']
     messages.success(request, "Logged Out Successfully")
     return redirect('home')
 
 def second_page(request):
-    user = get_object_or_404(User,id = request.user.id)
-    return render(request, "custom_pages/second_page.html",{'user': user})
+    customer = Customer.objects.get(id = request.session.get('customer_id'))
 
-        
-def second_page_post(request):
-
-    user = get_object_or_404(User,id = request.user.id)
     if request.method == 'POST':
-        username = request.POST['username']
-        fname = request.POST['firstName']
-        lname = request.POST['lastName']
-        email = request.POST['email']
-        password = request.POST.get('password')
-
+      
+        customer.first_Name = request.POST['first_name'].strip()
+        customer.last_name = request.POST['last_name'].strip()
+        customer.user_name = request.POST['username'].strip()
+        customer.email = request.POST['email'].strip()
+        customer.full_name = request.POST['first_name'].strip() + ' ' +request.POST['last_name'].strip()
+        customer.save()
+        del request.session['customer_id']
+        request.session['customer_id'] = customer.id
+        return render(request, "custom_pages/second_page.html",{'user': customer})
 
        
-        user.first_name = fname
-        user.last_name = lname
-        user.username = username
-        user.email = email
-        user.password = password
-        user.save()
+    else:
+        return render(request, "custom_pages/second_page.html",{'user': customer})
 
-        return render(request, "custom_pages/second_page.html",{'user': user})
+def forgot_password(request):
+    responseMessage  = ''
 
- 
-    
+    if request.method == 'POST':
+        email = request.POST['email'].strip()
 
-    
-   
+        customer = Customer.objects.get(email = email)
+
+        if customer is not None:
+            return render(request, "authentication/password_reset.html",{'customer': customer}) 
+        else:
+            
+            responseMessage = 'User not Found with the Provided Email Address.'
+            return render(request, "authentication/forgot_password.html",{'message': responseMessage})
+            
+    else:
+        return render(request, "authentication/forgot_password.html")
+  
+def password_reset(request):
+
+    responseMessage  = ''
+
+    if request.method == 'POST':
+        password_new = request.POST['new_password'].strip()
+        new_password_confirm = request.POST['new_password_confirm'].strip()
+        email = request.POST['email'].lower()
+        
+        if password_new == new_password_confirm:
+            customer = Customer.objects.get(email = email)
+            customer.password = password_new
+            customer.save()
+            responseMessage = "Password reset SuccessFully.Please Login Again"
+            return render (request, "authentication/signin.html",{'response': responseMessage})
+        else:
+            responseMessage = "Both password Don't Match"
+            return render (request, 'authentication/password_reset.html',{'response': responseMessage})
+    else:
+        return render(request,'authentication/password_reset.html',{'response': responseMessage})
 
 def about_us(request):
 
@@ -96,8 +169,6 @@ def about_us(request):
 def gallery(request):
     
     return render(request, "custom_pages/gallery.html")
-
-
 
 def contact_us(request):
 
