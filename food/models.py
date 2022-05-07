@@ -69,5 +69,52 @@ class Order(models.Model):
 
    def __str__(self):
         return self.name
-        
+
+class Voucher(models.Model):
+   code = models.CharField(max_length=30,null=False)
+   percentage = models.FloatField()
+   max_discount = models.FloatField()
+   createdAt = models.DateTimeField(auto_now_add=True)
+   
+   class Meta:
+        verbose_name = 'Voucher'
+        verbose_name_plural = 'Vouchers'
+
+   def __str__(self):
+        return self.name
+
+class CartOrder(models.Model):
+   customer_id = models.CharField(max_length=50,null=False)
+   restaurant_id = models.ForeignKey(
+      Restaurant, on_delete=models.SET_NULL, null=True, related_name='cart_order_restaurant')
+   voucher_id = models.ForeignKey(
+      Voucher, on_delete=models.SET_NULL, null=True, related_name='cart_order_voucher')
+   total_food_price = models.FloatField(default=0.0)
+   voucher_discount = models.FloatField(default=0.0)
+   final_food_price = models.FloatField(default=0.0)
+   is_complete = models.BooleanField(default=False)
+   checkout_date = models.DateTimeField(blank=True,null=True)
+   order_complete_date = models.DateTimeField(blank=True,null=True)
+   createdAt = models.DateTimeField(auto_now_add=True)
+   
+   class Meta:
+        verbose_name = 'CartOrder'
+        verbose_name_plural = 'CartOrders'
+
+   def __str__(self):
+        return self.name
+class CartOrderItem(models.Model):
+   food_id = models.ForeignKey(
+      Item, on_delete=models.SET_NULL, null=True, related_name='food_cart_order')
+   cart_order_id = models.ForeignKey(
+      CartOrder, on_delete=models.SET_NULL, null=True, related_name='cart_order')
+   price = models.FloatField(default=0.0)
+   createdAt = models.DateTimeField(auto_now_add=True)
+   
+   class Meta:
+        verbose_name = 'CartOrderItem'
+        verbose_name_plural = 'CartOrderItems'
+
+   def __str__(self):
+        return self.name
         

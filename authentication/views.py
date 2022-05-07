@@ -12,7 +12,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from pymysql import NULL
 from .models import Customer
-from food.models import Restaurant,Item,Order
+from food.models import CartOrder, CartOrderItem, Restaurant,Item,Order, Voucher
 import datetime
 from django.db.models import Q
 
@@ -40,16 +40,77 @@ def food_items(request,id,food_id=''):
     items = Item.objects.filter(restaurant_id_id = id)
     res_message = ''
 
-    if food_id != '':
-        if request.session.get('customer_id') is not None:
-            food = Item.objects.get(id = food_id)
-            order = Order(price=food.price,is_added_to_cart	= True,food_id_id = food_id,restaurant_id_id = id,cart_added_date= datetime.datetime.now(),customer_id= request.session.get('customer_id')) 
-            order.save()
-        else:
-            return redirect('signin')
-
-
     return render(request, "custom_pages/food_items.html",{'items':items,'res_message': res_message, 'customer': customer})
+
+def add_food_items(request,restaurant_id,food_id):
+    customer = None
+    if request.session.get('customer_id') is not None: 
+        customer = Customer.objects.get(id = request.session.get('customer_id'))
+    else:
+        return redirect('signin')
+    
+    cartOrder = CartOrder.objects.filter(customer_id=str(customer.id), is_complete=False).first()
+    if cartOrder is None:
+        cartOrder = CartOrder(customer_id=str(customer.id), restaurant_id_id = restaurant_id)
+        cartOrder.save()
+    
+    if cartOrder.restaurant_id_id != restaurant_id:
+        cartOrder.restaurant_id_id = restaurant_id
+        cartOrder.voucher_id_id = None
+        cartOrder.save()
+        CartOrderItem.objects.filter(cart_order_id=cartOrder.id).delete()
+    
+    food = Item.objects.get(id = food_id)
+    cartOrderItem = CartOrderItem(food_id_id=food_id, cart_order_id_id=cartOrder.id, price=food.price)
+    cartOrderItem.save()
+
+    return redirect('food_items', id = restaurant_id)
+
+def checkout(request):
+    customer = None
+    if request.session.get('customer_id') is not None: 
+        customer = Customer.objects.get(id = request.session.get('customer_id'))
+    else:
+        return redirect('signin')
+    
+    cartOrder = CartOrder.objects.filter(customer_id=str(customer.id), is_complete=False).first()
+    cartOrderItems = CartOrderItem.objects.select_related('food_id').filter(cart_order_id_id = cartOrder.id)
+
+    total_price = 0.0
+    for item in cartOrderItems:
+        total_price += item.price
+    
+    cartOrder.total_food_price = total_price
+    cartOrder.voucher_discount = 0.0
+    cartOrder.final_food_price = total_price
+    if cartOrder.voucher_id is not None:
+        voucher = Voucher.objects.filter(id=cartOrder.voucher_id_id).first()
+        if voucher is not None:
+            discount = min(voucher.max_discount, (total_price * (voucher.percentage / 100)))
+            cartOrder.voucher_discount = discount
+            cartOrder.final_food_price = total_price - discount
+    cartOrder.save()
+
+    return render(request, "custom_pages/checkout.html",{'cartOrder':cartOrder, 'cartOrderItems': cartOrderItems,'customer': customer})
+
+def add_voucher(request):
+    customer = None
+    if request.session.get('customer_id') is not None: 
+        customer = Customer.objects.get(id = request.session.get('customer_id'))
+    else:
+        return redirect('signin')
+    
+    code = request.GET.get('voucher', '')
+    voucher = Voucher.objects.filter(code__icontains=code).first()
+
+    if voucher is not None:
+        cartOrder = CartOrder.objects.filter(customer_id=str(customer.id), is_complete=False).first()
+        if cartOrder is not None:
+            cartOrder.voucher_id_id = voucher.id
+            cartOrder.save()
+
+    return redirect('checkout')
+
 
 def signup(request):
 

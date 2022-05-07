@@ -16,6 +16,8 @@ urlpatterns = [
     path('forgot_password', views.forgot_password, name="forgot_password"),
     path('password_reset', views.password_reset, name="password_reset"),
     path('restaurents/<int:id>', views.food_items, name = 'food_items'),
-    path('restaurents/<int:id>/food/<int:food_id>', views.food_items, name = 'food_items')
+    path('add_food_items/<int:restaurant_id>/<int:food_id>', views.add_food_items, name = 'add_food_items'),
+    path('checkout', views.checkout, name = 'checkout'),
+    path('add-voucher', views.add_voucher, name = 'add_voucher'),
     
 ]

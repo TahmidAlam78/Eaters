@@ -70,25 +70,54 @@
 
 
     <main class="main">
-        <div class="row">  
-            <div class="col-lg-1"></div> 
-            {% for it in items %}
-            <div class="col-lg-2">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src=" {% static it.res_image.url%}" alt="Card image cap" width="220px">
-                    <div class="card-body">
-                     <div> <h4 class="card-title">{{it.name}}</h4> </div>
-                      <p class="card-text">{{it.price}} Taka</p>
-                      <p class="card-text">{{it.description |truncatewords_html:4}}</p>
-                      <p class="card-text">{{it.rating}}/5</p>
-                  
-                  </div>
+        {% if cartOrder is not None %}
+            <div class="row" style="padding-left: 10em;">  
+                <div class="col-lg-1"></div>
+                <div>Food Items:</div>
+                {% for item in cartOrderItems %}
+                <div>{{item.food_id.name}}: {{item.price}} /-</div>
+                 
+                {% endfor %}
+                <div>Total Food Price: {{cartOrder.total_food_price}} /-</div>
+                <div>Voucher Discount: {{cartOrder.voucher_discount}} /-</div>
+                <div>Final Price: {{cartOrder.final_food_price}} /-</div>
+            </div>
+            <div class="row" style="margin-left: 10%; margin-bottom: 2em;">
+                <form action="/add-voucher" method="GET"> 
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Add Voucher" id="voucherId" name="voucher" value="{{ qstr }}"/>
+                        <div class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-                <a  href='{% url "add_food_items" it.restaurant_id_id it.id %}'><div> <button class="btn btn-primary">Add to Cart</button></div></a>
-           
-        </div>
-        {% endfor %}
-
+                </form>
+            </div>
+            <div class="row" style="margin-left: 10%; margin-bottom: 2em;">
+                <form action="/place-order" method="GET"> 
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">
+                            <span>Place Order</span>
+                        </button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        {% else %}
+            <div class="row" style="margin-left: 10%; margin-bottom: 2em;">  
+                <div class="col-lg-1">No Cart Items</div> 
+            </div>
+        {% endif %}
     </main>
     
 </body>
