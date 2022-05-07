@@ -19,7 +19,10 @@ from django.db.models import Q
 # Create your views here.
 
 def home(request):
-
+    customer = None
+    if request.session.get('customer_id') is not None: 
+        customer = Customer.objects.get(id = request.session.get('customer_id'))
+    
     qstr = request.GET.get('searchFor', '')
     if qstr == '':
         resrtaurents = Restaurant.objects.all()
@@ -27,23 +30,26 @@ def home(request):
         # resrtaurents = Restaurant.objects.filter(food_restaurant__name__icontains=qstr)
         resrtaurents = Restaurant.objects.filter(Q(name__icontains=qstr) | Q(food_restaurant__name__icontains=qstr))
 
-    return render(request, "authentication/index.html",{'resrtaurents':resrtaurents, 'qstr':qstr})
+    return render(request, "authentication/index.html",{'resrtaurents':resrtaurents, 'qstr':qstr, 'customer':customer})
 
 def food_items(request,id,food_id=''):
-
+    customer = None
+    if request.session.get('customer_id') is not None: 
+        customer = Customer.objects.get(id = request.session.get('customer_id'))
+    
     items = Item.objects.filter(restaurant_id_id = id)
     res_message = ''
 
-    if food_id != '' and request.session.get('customer_id') is not None:
-       
-        food = Item.objects.get(id = food_id)
-        order = Order(price=food.price,is_added_to_cart	= True,food_id_id = food_id,restaurant_id_id = id,cart_added_date= datetime.datetime.now(),customer_id= request.session.get('customer_id')) 
-        order.save()
-    else:
-        res_message = 'To add item in the Cart , Please Login'
+    if food_id != '':
+        if request.session.get('customer_id') is not None:
+            food = Item.objects.get(id = food_id)
+            order = Order(price=food.price,is_added_to_cart	= True,food_id_id = food_id,restaurant_id_id = id,cart_added_date= datetime.datetime.now(),customer_id= request.session.get('customer_id')) 
+            order.save()
+        else:
+            return redirect('signin')
 
 
-    return render(request, "custom_pages/food_items.html",{'items':items,'res_message': res_message})
+    return render(request, "custom_pages/food_items.html",{'items':items,'res_message': res_message, 'customer': customer})
 
 def signup(request):
 
@@ -96,7 +102,8 @@ def signin(request):
             if customer.password == request.POST['password']:
                 request.session['customer_id'] = customer.id
                 response_message = 'User Authenticated Successfully'
-                return render(request, "authentication/index.html", {'customer': customer, 'response': response_message})  
+
+                return redirect('home')
                 
             else:
                 response_message = "Provided password is Wrong.Please try with correct Password"
