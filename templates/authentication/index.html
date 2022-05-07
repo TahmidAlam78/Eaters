@@ -39,10 +39,10 @@
                 <div class="collapse navbar-collapse" id="micon" style="margin-top: 1%;">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="">Home</a></li>
-                        <li><a href="">Features</a></li>
                         <li><a href="/about-us">About Us</a></li>
                         <li><a href="/gallery">Gallery</a></li>
                         <li><a href="/contact-us">Contact Us</a></li>
+                        <li><a href="/signin">Login</a></li>
                     </ul>
                 </div>
             </div>
@@ -66,27 +66,49 @@
 
 
     <main class="main">
-        <div class="row">  
-            <div class="col-lg-1"></div> 
-            {% for res in resrtaurents %}
-            <a href='{% url "food_items" res.id %}'>
-            <div class="col-lg-2" >
-                <div class="card" style="width: 18rem;" >
-                    <img class="card-img-top" src=" {% static res.res_image.url%}" alt="Card image cap" width="220px" >
-                    <div class="card-body">
-                      <h4 class="card-title">{{res.name}}</h4>
-                      <p class="card-text">{{res.location}}</p>
-                      <p class="card-text">{{res.description |truncatewords_html:4}}</p>
-                      <p class="card-text">{{res.rating}}/5</p>
-                    
-                  </div>
-                 </div>
-           
-           
+        <div class="row" style="margin-left: 10%; margin-bottom: 2em;">
+            <form action="/" method="GET"> 
+            <div class="row">
+                <div class="col-xs-6 col-md-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="searchForId" name="searchFor" value="{{ qstr }}"/>
+                    <div class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    </div>
+                </div>
+                </div>
             </div>
-        </a>
-        {% endfor %}
-
+            </form>
+        </div>
+        {% if resrtaurents %}
+            <div class="row">  
+                <div class="col-lg-1"></div> 
+                {% for res in resrtaurents %}
+                <a href='{% url "food_items" res.id %}'>
+                    <div class="col-lg-2" >
+                        <div class="card" style="width: 18rem;" >
+                            <img class="card-img-top" src=" {% static res.res_image.url%}" alt="Card image cap" width="220px" >
+                            <div class="card-body">
+                            <h4 class="card-title">{{res.name}}</h4>
+                            <p class="card-text">{{res.location}}</p>
+                            <p class="card-text">{{res.description |truncatewords_html:4}}</p>
+                            <p class="card-text">{{res.rating}}/5</p>
+                            
+                        </div>
+                        </div>
+                
+                
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="row" style="margin-left: 10%; margin-bottom: 2em;">  
+                <div class="col-lg-1">No Results</div> 
+            </div>
+        {% endif %}
     </main>
     
 </body>

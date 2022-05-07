@@ -14,13 +14,20 @@ from pymysql import NULL
 from .models import Customer
 from food.models import Restaurant,Item,Order
 import datetime
+from django.db.models import Q
+
 # Create your views here.
 
 def home(request):
 
-    resrtaurents = Restaurant.objects.all()
+    qstr = request.GET.get('searchFor', '')
+    if qstr == '':
+        resrtaurents = Restaurant.objects.all()
+    else:
+        # resrtaurents = Restaurant.objects.filter(food_restaurant__name__icontains=qstr)
+        resrtaurents = Restaurant.objects.filter(Q(name__icontains=qstr) | Q(food_restaurant__name__icontains=qstr))
 
-    return render(request, "authentication/index.html",{'resrtaurents':resrtaurents})
+    return render(request, "authentication/index.html",{'resrtaurents':resrtaurents, 'qstr':qstr})
 
 def food_items(request,id,food_id=''):
 
